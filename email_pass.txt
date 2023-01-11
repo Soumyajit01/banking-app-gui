@@ -1,0 +1,2 @@
+[Enter your 16-digit GENERATED APP PASSWORD in this file]
+Guide to generate the app password: https://support.google.com/mail/answer/185833?hl=en-GB
