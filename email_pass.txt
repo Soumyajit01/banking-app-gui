@@ -1,2 +1,3 @@
 [Enter your 16-digit GENERATED APP PASSWORD in this file]
 Guide to generate the app password: https://support.google.com/mail/answer/185833?hl=en-GB
+Also, make sure the change the email of sender in the otp.py file: https://github.com/Soumyajit01/banking-app-gui/blob/main/otp.py#L11
