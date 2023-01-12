@@ -1,2 +1,0 @@
-[2023-01-11 11:15:41.487566]- Account created
-[2023-01-11 11:18:42.526948]-Received Rs.200 from soumyajit
