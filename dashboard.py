@@ -1,9 +1,11 @@
 from tkinter import *
 import server
 from tkinter import messagebox
-from PIL import Image
 import datetime
 import customtkinter
+import os
+import keyboard
+
 customtkinter.set_default_color_theme("blue")
 customtkinter.set_appearance_mode("dark")
 #print(list(server.accounts.keys()))
@@ -24,8 +26,8 @@ def viewDashboard(name, money):
     user_logo.grid(row=0,column=0)
     user_name.grid(row=0,column=1,padx=(20,0))
     def logoutClick():
-        dashboard.withdraw()
-        import mainscreen
+        dashboard.destroy()
+        os.startfile('mainscreen.pyw')
         with open(f"logs/{name}.txt",'a') as f:
             f.write(f"[{datetime.datetime.now()}]- Logged out\n")
     logout_frame = customtkinter.CTkButton(account_frame, text="Logout",font=("Cascadia Code",20),command=logoutClick,fg_color="#ad6b66",hover_color="#e36d64")
@@ -256,11 +258,30 @@ def viewDashboard(name, money):
         wifi_recharge_amt.grid(row=2,column=2,padx=(50,0),pady=(10))
         wifi_recharge_btn.grid(row=2,column=3,padx=(30,0))
         
+        
     def viewCustomise():
+        def confirmDeletion():
+            if server.accounts[name]['money']==0:
+                confirm = messagebox.askyesno('CONFIRM?','Are you sure?')
+                if(confirm==True and server.accounts[name]['money']==0):
+                    accounts=server.accounts
+                    del accounts[name]
+                    with open('server.py', 'w') as f:
+                            f.write(f"accounts = {str(accounts)}")
+                    dashboard.destroy()
+                    viewTransactions_yes_no = messagebox.askyesno('View transactions','Your account has been successfully deleted. Do you want to see your transactions?')
+                    if viewTransactions_yes_no==True:
+                        os.startfile(fr"logs\{name}.txt")
+            else:
+                messagebox.showwarning("Alert!","Your account still has balance. Kindly get the balance to 0 in order to delete your account")
+
+
         operations_frame.forget()
         logs_frame.forget()
         recharge_frame.forget()
         customise_frame.pack(pady=50,padx=120,fill="both")
+        delete_btn=customtkinter.CTkButton(customise_frame,text="Delete account",text_color="white",fg_color="#fc6565",font=('Cascadia Code',18),hover_color="#ff0000", command=confirmDeletion)
+        delete_btn.grid(row=0,column=1,padx=5,pady=5)
 
     recharge=customtkinter.CTkButton(bankingOptions,text="Recharge",font=("Cascadia Code",20),command=viewRechargeOptions)
     customise=customtkinter.CTkButton(bankingOptions,text="Customise",font=("Cascadia Code",20),command=viewCustomise)
@@ -276,3 +297,7 @@ def viewDashboard(name, money):
     customise_frame = customtkinter.CTkFrame(dashboard,fg_color='#383b40',height=700,width=500,corner_radius=10)
     
     dashboard.mainloop()
+
+
+if __name__ == "__main__":
+    viewDashboard('soumyajit',500)
