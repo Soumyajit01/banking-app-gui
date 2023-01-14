@@ -30,7 +30,7 @@ def viewDashboard(name, money):
         os.startfile('mainscreen.pyw')
         with open(f"logs/{name}.txt",'a') as f:
             f.write(f"[{datetime.datetime.now()}]- Logged out\n")
-    logout_frame = customtkinter.CTkButton(account_frame, text="Logout",font=("Cascadia Code",20),command=logoutClick,fg_color="#ad6b66",hover_color="#e36d64")
+    logout_frame = customtkinter.CTkButton(account_frame, text="Logout",font=("Cascadia Code",20),command=logoutClick,fg_color="#e36d64",hover_color="#ff0000")
     logout_frame.grid(row=0,column=1, padx=(500,0))
     user_frame.grid(row=0,column=0)
     # user_frame.pack(anchor='nw')
@@ -269,19 +269,55 @@ def viewDashboard(name, money):
                     with open('server.py', 'w') as f:
                             f.write(f"accounts = {str(accounts)}")
                     dashboard.destroy()
-                    viewTransactions_yes_no = messagebox.askyesno('View transactions','Your account has been successfully deleted. Do you want to see your transactions?')
-                    if viewTransactions_yes_no==True:
-                        os.startfile(fr"logs\{name}.txt")
+                    os.startfile(fr"logs\{name}.txt")
             else:
                 messagebox.showwarning("Alert!","Your account still has balance. Kindly get the balance to 0 in order to delete your account")
-
-
         operations_frame.forget()
         logs_frame.forget()
         recharge_frame.forget()
         customise_frame.pack(pady=50,padx=120,fill="both")
-        delete_btn=customtkinter.CTkButton(customise_frame,text="Delete account",text_color="white",fg_color="#fc6565",font=('Cascadia Code',18),hover_color="#ff0000", command=confirmDeletion)
-        delete_btn.grid(row=0,column=1,padx=5,pady=5)
+        def saveChanges():
+            accounts = server.accounts
+            # newName=str(newName_input.get())
+            newEmail=str(newEmail_input.get())
+            newPhonenum=str(newPhonenum_input.get())
+            newPassword=str(newPassword_input.get())
+            
+            # accounts[newName]=accounts.pop(_name)
+            accounts[name]['email']=newEmail
+            accounts[name]['phonenum']=int(newPhonenum)
+            accounts[name]['password']=newPassword
+            with open('server.py', 'w') as f:
+                f.write(f"accounts = {str(accounts)}")
+            messagebox.showinfo('Success!','Changes saved')
+        save_chances_btn=customtkinter.CTkButton(customise_frame,text="Save preferences",text_color="white",fg_color="#5eafd1",font=('Cascadia Code',18),hover_color="#22424f", command=saveChanges)
+        delete_btn=customtkinter.CTkButton(customise_frame,text="Delete account",text_color="white",fg_color="#fc6565",font=('Cascadia Code',12),hover_color="#ff0000", command=confirmDeletion)
+        # newName_label = customtkinter.CTkLabel(customise_frame,text="Name: ",font=("Cascadia Code",18))
+        # newName_input = customtkinter.CTkEntry(customise_frame,font=("Cascadia Code",18),width=200)
+        # newName_input.insert(0, name)
+
+        newEmail_label = customtkinter.CTkLabel(customise_frame,text="Email: ",font=("Cascadia Code",18))
+        newEmail_input = customtkinter.CTkEntry(customise_frame,font=("Cascadia Code",18),width=300)
+        newEmail_input.insert(0, server.accounts[name]['email'])
+
+        newPhonenum_label = customtkinter.CTkLabel(customise_frame,text="Phone number: ",font=("Cascadia Code",18))
+        newPhonenum_input = customtkinter.CTkEntry(customise_frame,font=("Cascadia Code",18),width=300)
+        newPhonenum_input.insert(0, server.accounts[name]['phonenum'])
+
+        newPassword_label = customtkinter.CTkLabel(customise_frame,text="Password: ",font=("Cascadia Code",18))
+        newPassword_input = customtkinter.CTkEntry(customise_frame,font=("Cascadia Code",18),width=300,show="*")
+        newPassword_input.insert(0, server.accounts[name]['password'])
+
+        # newName_label.grid(row=0,column=0,padx=5,pady=(5,0),sticky="w")
+        # newName_input.grid(row=0,column=1,pady=2,sticky="w")
+        newEmail_label.grid(row=1,column=0,padx=5,pady=(5,0),sticky="w")
+        newEmail_input.grid(row=1,column=1,pady=2,sticky="w")
+        newPhonenum_label.grid(row=2,column=0,padx=5,pady=(5,0),sticky="w")
+        newPhonenum_input.grid(row=2,column=1,pady=2,sticky="w")
+        newPassword_label.grid(row=3,column=0,padx=5,pady=(5,0),sticky="w")
+        newPassword_input.grid(row=3,column=1,pady=2,sticky="w")
+        save_chances_btn.grid(row=4,column=1,padx=5,pady=2)
+        delete_btn.grid(row=4,column=3,pady=(2,5),padx=(5,0))
 
     recharge=customtkinter.CTkButton(bankingOptions,text="Recharge",font=("Cascadia Code",20),command=viewRechargeOptions)
     customise=customtkinter.CTkButton(bankingOptions,text="Customise",font=("Cascadia Code",20),command=viewCustomise)
@@ -294,10 +330,10 @@ def viewDashboard(name, money):
     bankingOptions.pack(fill=Y,pady=(20,0),)
     operations_frame = customtkinter.CTkFrame(dashboard,fg_color='#383b40',height=500,corner_radius=10)
     recharge_frame = customtkinter.CTkFrame(dashboard,fg_color='#383b40',height=500,corner_radius=10)
-    customise_frame = customtkinter.CTkFrame(dashboard,fg_color='#383b40',height=700,width=500,corner_radius=10)
-    
+    customise_frame = customtkinter.CTkFrame(dashboard,fg_color='#383b40',height=1000,width=500,corner_radius=10)
+    customise_frame.configure()
     dashboard.mainloop()
 
 
 if __name__ == "__main__":
-    viewDashboard('soumyajit',500)
+    viewDashboard('user0',1000)

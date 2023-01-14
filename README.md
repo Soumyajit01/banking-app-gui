@@ -26,3 +26,4 @@ IndiaPay is a GUI based banking application. It has almost all features that are
 ![Pay](screenshots/pay.jpg)
 ![Recharge](screenshots/recharge.jpg)
 ![Transaction history](screenshots/history.jpg)
+![Customise Profile](screenshots/customise.jpg)
