@@ -27,7 +27,7 @@ form = customtkinter.CTkFrame(signup, width=1000,height=400,corner_radius=20)
 
 
 letters = string.ascii_lowercase
-print(letters,type(letters))
+# print(letters,type(letters))
 characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
 def hash(passw):
     random.shuffle(characters) # shuffling the characters

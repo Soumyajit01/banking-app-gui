@@ -268,6 +268,8 @@ def viewDashboard(name, money):
                     del accounts[name]
                     with open('server.py', 'w') as f:
                             f.write(f"accounts = {str(accounts)}")
+                    with open(f'logs/{name}.txt','a') as f:
+                        f.write(f"[{datetime.datetime.now()}]-Account deleted\n")
                     dashboard.destroy()
                     os.startfile(fr"logs\{name}.txt")
             else:
@@ -290,6 +292,11 @@ def viewDashboard(name, money):
             with open('server.py', 'w') as f:
                 f.write(f"accounts = {str(accounts)}")
             messagebox.showinfo('Success!','Changes saved')
+        def decode(passw):
+            passw = passw[3:-3] #removing first 3 and last 3 characters
+            passw = passw[::2] # slicing
+            passw = passw[::-1] #reversing
+            return passw
         save_chances_btn=customtkinter.CTkButton(customise_frame,text="Save preferences",text_color="white",fg_color="#5eafd1",font=('Cascadia Code',18),hover_color="#22424f", command=saveChanges)
         delete_btn=customtkinter.CTkButton(customise_frame,text="Delete account",text_color="white",fg_color="#fc6565",font=('Cascadia Code',12),hover_color="#ff0000", command=confirmDeletion)
         # newName_label = customtkinter.CTkLabel(customise_frame,text="Name: ",font=("Cascadia Code",18))
@@ -306,7 +313,7 @@ def viewDashboard(name, money):
 
         newPassword_label = customtkinter.CTkLabel(customise_frame,text="Password: ",font=("Cascadia Code",18))
         newPassword_input = customtkinter.CTkEntry(customise_frame,font=("Cascadia Code",18),width=300,show="*")
-        newPassword_input.insert(0, server.accounts[name]['password'])
+        newPassword_input.insert(0, decode(server.accounts[name]['password']))
 
         # newName_label.grid(row=0,column=0,padx=5,pady=(5,0),sticky="w")
         # newName_input.grid(row=0,column=1,pady=2,sticky="w")
