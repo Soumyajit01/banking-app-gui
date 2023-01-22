@@ -31,9 +31,16 @@ login_passw= customtkinter.CTkLabel(form,text="Password: ", font=("Cascadia Code
 login_password_input = customtkinter.CTkEntry(form,placeholder_text="Password",font=("Cascadia Code",19),show="*",width=300)
 
 def signin():
+    def decode(passw):
+        passw = passw[3:-3] #removing first 3 and last 3 characters
+        passw = passw[::2] # slicing
+        passw = passw[::-1] #reversing
+        return passw
+        
+    
     login_user = login_input.get().lower()
     login_pwd = login_password_input.get()
-    if (login_user in ids) and (login_pwd == server.accounts[login_user]['password']):
+    if (login_user in ids) and (login_pwd == decode(server.accounts[login_user]['password'])):
         messagebox.showinfo('CORRECT PASSWORD', 'CORRECT PASSWORD ENTERED!')
         accountnum = server.accounts[login_user]['accountnum']
         money = server.accounts[login_user]['money']

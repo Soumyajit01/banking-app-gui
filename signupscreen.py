@@ -1,3 +1,4 @@
+import string
 from tkinter import *
 from tkinter import messagebox
 import server
@@ -24,15 +25,29 @@ heading = customtkinter.CTkLabel(master=signup,
 heading.pack(pady=10)
 form = customtkinter.CTkFrame(signup, width=1000,height=400,corner_radius=20)
 
+
+letters = string.ascii_lowercase
+print(letters,type(letters))
+characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
+def hash(passw):
+    random.shuffle(characters) # shuffling the characters
+    passw=list(passw[::-1]) # reversing the sequence
+    start_chars=''.join(random.choices(list(letters)+characters,k=3)) # first 3 characters in hashed password
+    end_chars=''.join(random.choices(list(letters)+characters,k=3)) # last 3 characters in hashed password
+    x=tuple(zip(passw,characters))
+    mid_chars= ''
+    for i in x:
+        mid_chars=mid_chars+''.join(i) 
+    return f"{start_chars}{mid_chars}{end_chars}"
 def createAccount():
     if (len(phonenum_input.get())==10 and len(name_input.get())>0 and len(password_input.get())>0 and len(email_input.get())>5 and email_input.get().find('@')>0 and len(aadhar_card_input.get())==12):
         if((name_input.get().lower()) not in server.accounts.keys()):
             total_ids.update({name_input.get().lower():{
-                'password': password_input.get(),
                 'email': email_input.get(),
                 'phonenum': int(phonenum_input.get()),
                 'aadhar card': aadhar_card_input.get(),
                 'accountnum': random.randint(1000000000000000,9999999999999999),
+                'password': hash(password_input.get()),
                 'money': 0
             }})
             with open('server.py', 'w') as f:
