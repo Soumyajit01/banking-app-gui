@@ -30,6 +30,29 @@ letters = string.ascii_lowercase
 # print(letters,type(letters))
 characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
 def hash(passw):
+    hashed = ''
+    for i in list(passw):
+        nums = [0,1,2,3,4,5,6,7,8,9]
+        letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        try: 
+            i=int(i)
+        except Exception:
+            pass
+        if type(i)==int and i<9:
+            i_index = nums.index(i)
+            newIndex = i_index+1
+            newNum = nums[newIndex]
+            hashed = hashed+str(newNum)
+        elif type(i)==str and i in letters:
+            i_index = letters.index(i)
+            newIndex = i_index+1
+            newChar = letters[newIndex]
+            hashed = hashed+newChar
+        elif i not in letters:
+            hashed = hashed+str(i)
+        elif(i==9):
+            hashed = hashed+"9"
+    passw=hashed
     random.shuffle(characters) # shuffling the characters
     passw=list(passw[::-1]) # reversing the sequence
     start_chars=''.join(random.choices(list(letters)+characters,k=3)) # first 3 characters in hashed password
