@@ -4,7 +4,7 @@ from tkinter import messagebox
 import datetime
 import customtkinter
 import os
-import keyboard
+import pass_auth
 
 customtkinter.set_default_color_theme("blue")
 customtkinter.set_appearance_mode("dark")
@@ -283,8 +283,9 @@ def viewDashboard(name, money):
             # newName=str(newName_input.get())
             newEmail=str(newEmail_input.get())
             newPhonenum=str(newPhonenum_input.get())
+
             newPassword=str(newPassword_input.get())
-            
+            newPassword = pass_auth.hash(newPassword)
             # accounts[newName]=accounts.pop(_name)
             accounts[name]['email']=newEmail
             accounts[name]['phonenum']=int(newPhonenum)
@@ -292,33 +293,7 @@ def viewDashboard(name, money):
             with open('server.py', 'w') as f:
                 f.write(f"accounts = {str(accounts)}")
             messagebox.showinfo('Success!','Changes saved')
-        def decode(passw):
-            characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
-            nums = [0,1,2,3,4,5,6,7,8,9]
-            letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-            passw = passw[3:-3] #removing first 3 and last 3 characters
-            passw = passw[::2] # slicing
-            passw = passw[::-1] #reversing 
-            password = ''
-            for i in list(passw):
-                # print(i,type(i))
-                if i in letters:
-                    i_index = letters.index(i)
-                    newIndex = i_index-1
-                    newLetter = letters[newIndex]
-                    password = password+newLetter
-                elif i in characters:
-                    i_index = characters.index(i)
-                    newIndex = i_index-1
-                    newChar = characters[newIndex]
-                    password = password+newChar
-                elif int(i) in nums:
-                    i_index = nums.index(int(i))
-                    newIndex = i_index-1
-                    newNum = nums[newIndex]
-                    password = password+str(newNum)
-                
-            return password
+        
         save_chances_btn=customtkinter.CTkButton(customise_frame,text="Save preferences",text_color="white",fg_color="#5eafd1",font=('Cascadia Code',18),hover_color="#22424f", command=saveChanges)
         delete_btn=customtkinter.CTkButton(customise_frame,text="Delete account",text_color="white",fg_color="#fc6565",font=('Cascadia Code',12),hover_color="#ff0000", command=confirmDeletion)
         # newName_label = customtkinter.CTkLabel(customise_frame,text="Name: ",font=("Cascadia Code",18))
@@ -335,7 +310,7 @@ def viewDashboard(name, money):
 
         newPassword_label = customtkinter.CTkLabel(customise_frame,text="Password: ",font=("Cascadia Code",18))
         newPassword_input = customtkinter.CTkEntry(customise_frame,font=("Cascadia Code",18),width=300,show="*")
-        newPassword_input.insert(0, decode(server.accounts[name]['password']))
+        newPassword_input.insert(0, pass_auth.decode(server.accounts[name]['password']))
 
         # newName_label.grid(row=0,column=0,padx=5,pady=(5,0),sticky="w")
         # newName_input.grid(row=0,column=1,pady=2,sticky="w")

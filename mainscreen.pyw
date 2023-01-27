@@ -5,7 +5,7 @@ import dashboard
 import otp
 import customtkinter
 import datetime
-from PIL import Image
+import pass_auth
 
 total_entries = server.accounts
 ids = list(total_entries.keys())
@@ -30,39 +30,10 @@ login_input=customtkinter.CTkEntry(form, placeholder_text="ID",font=('Cascadia C
 login_passw= customtkinter.CTkLabel(form,text="Password: ", font=("Cascadia Code",25))
 login_password_input = customtkinter.CTkEntry(form,placeholder_text="Password",font=("Cascadia Code",19),show="*",width=300)
 
-def signin():
-    def decode(passw):
-        characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
-        nums = [0,1,2,3,4,5,6,7,8,9]
-        letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-        passw = passw[3:-3] #removing first 3 and last 3 characters
-        passw = passw[::2] # slicing
-        passw = passw[::-1] #reversing 
-        password = ''
-        for i in list(passw):
-            # print(i,type(i))
-            if i in letters:
-                i_index = letters.index(i)
-                newIndex = i_index-1
-                newLetter = letters[newIndex]
-                password = password+newLetter
-            elif i in characters:
-                i_index = characters.index(i)
-                newIndex = i_index-1
-                newChar = characters[newIndex]
-                password = password+newChar
-            elif int(i) in nums:
-                i_index = nums.index(int(i))
-                newIndex = i_index-1
-                newNum = nums[newIndex]
-                password = password+str(newNum)
-            
-        return password
-        
-    
+def signin():      
     login_user = login_input.get().lower()
     login_pwd = login_password_input.get()
-    if (login_user in ids) and (login_pwd == decode(server.accounts[login_user]['password'])):
+    if (login_user in ids) and (login_pwd == pass_auth.decode(server.accounts[login_user]['password'])):
         messagebox.showinfo('CORRECT PASSWORD', 'CORRECT PASSWORD ENTERED!')
         accountnum = server.accounts[login_user]['accountnum']
         money = server.accounts[login_user]['money']
@@ -120,4 +91,5 @@ login_input.grid(row=0, column=1, padx=20)
 login_password_input.grid(row=1, column=1, pady=10)
 login_passw.grid(row=1,column=0)
 
-root.mainloop()
+if __name__ == "__main__":
+    root.mainloop()
