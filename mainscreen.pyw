@@ -32,10 +32,32 @@ login_password_input = customtkinter.CTkEntry(form,placeholder_text="Password",f
 
 def signin():
     def decode(passw):
+        characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
+        nums = [0,1,2,3,4,5,6,7,8,9]
+        letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
         passw = passw[3:-3] #removing first 3 and last 3 characters
         passw = passw[::2] # slicing
-        passw = passw[::-1] #reversing
-        return passw
+        passw = passw[::-1] #reversing 
+        password = ''
+        for i in list(passw):
+            # print(i,type(i))
+            if i in letters:
+                i_index = letters.index(i)
+                newIndex = i_index-1
+                newLetter = letters[newIndex]
+                password = password+newLetter
+            elif i in characters:
+                i_index = characters.index(i)
+                newIndex = i_index-1
+                newChar = characters[newIndex]
+                password = password+newChar
+            elif int(i) in nums:
+                i_index = nums.index(int(i))
+                newIndex = i_index-1
+                newNum = nums[newIndex]
+                password = password+str(newNum)
+            
+        return password
         
     
     login_user = login_input.get().lower()

@@ -293,10 +293,32 @@ def viewDashboard(name, money):
                 f.write(f"accounts = {str(accounts)}")
             messagebox.showinfo('Success!','Changes saved')
         def decode(passw):
+            characters = ['!','@','#','$','%','^','&','*','_','.',"+"]
+            nums = [0,1,2,3,4,5,6,7,8,9]
+            letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
             passw = passw[3:-3] #removing first 3 and last 3 characters
             passw = passw[::2] # slicing
-            passw = passw[::-1] #reversing
-            return passw
+            passw = passw[::-1] #reversing 
+            password = ''
+            for i in list(passw):
+                # print(i,type(i))
+                if i in letters:
+                    i_index = letters.index(i)
+                    newIndex = i_index-1
+                    newLetter = letters[newIndex]
+                    password = password+newLetter
+                elif i in characters:
+                    i_index = characters.index(i)
+                    newIndex = i_index-1
+                    newChar = characters[newIndex]
+                    password = password+newChar
+                elif int(i) in nums:
+                    i_index = nums.index(int(i))
+                    newIndex = i_index-1
+                    newNum = nums[newIndex]
+                    password = password+str(newNum)
+                
+            return password
         save_chances_btn=customtkinter.CTkButton(customise_frame,text="Save preferences",text_color="white",fg_color="#5eafd1",font=('Cascadia Code',18),hover_color="#22424f", command=saveChanges)
         delete_btn=customtkinter.CTkButton(customise_frame,text="Delete account",text_color="white",fg_color="#fc6565",font=('Cascadia Code',12),hover_color="#ff0000", command=confirmDeletion)
         # newName_label = customtkinter.CTkLabel(customise_frame,text="Name: ",font=("Cascadia Code",18))
@@ -343,4 +365,4 @@ def viewDashboard(name, money):
 
 
 if __name__ == "__main__":
-    viewDashboard('user0',1000)
+    viewDashboard('dsafa',1000)
