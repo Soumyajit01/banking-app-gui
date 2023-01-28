@@ -14,11 +14,13 @@ def hash(passw):
             newIndex = i_index+1
             newNum = nums[newIndex]
             hashed = hashed+str(newNum)
-        elif type(i)==str and i in letters:
+        elif type(i)==str and i in letters[0:len(letters)-1] and i!='z':
             i_index = letters.index(i)
             newIndex = i_index+1
             newLetter = letters[newIndex]
             hashed = hashed+newLetter
+        elif type(i)==str and i=='z':
+            hashed = hashed+'a'
         elif(i==9):
             hashed = hashed+"9"
         elif(i=='+'):
