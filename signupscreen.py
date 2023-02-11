@@ -31,8 +31,13 @@ letters = string.ascii_lowercase
 # print(letters,type(letters))
 
 def createAccount():
-    if (len(phonenum_input.get())==10 and len(name_input.get())>0 and len(password_input.get())>0 and len(email_input.get())>5 and email_input.get().find('@')>0 and len(aadhar_card_input.get())==12):
-        if((name_input.get().lower()) not in server.accounts.keys()):
+    phoneNumList  = []
+    for i in list(server.accounts.values()):
+        print(i)
+        phoneNumList.append(i['phonenum'])
+        # we got the phonenumber list
+    if (len(phonenum_input.get())==10 and len(name_input.get())>0 and len(password_input.get())>0 and len(email_input.get())>5 and email_input.get().find('@')>0 and len(aadhar_card_input.get())==12 ):
+        if((name_input.get().lower()) not in server.accounts.keys() and int(phonenum_input.get()) not in phoneNumList):
             total_ids.update({name_input.get().lower():{
                 'email': email_input.get(),
                 'phonenum': int(phonenum_input.get()),
@@ -55,7 +60,7 @@ def createAccount():
             aadhar_card_input.delete(0,END)
             #print(name_input.get())
         else:
-            messagebox.showerror('Failed','This name has been taken, kindly use another name')
+            messagebox.showerror('Failed','This name or phone number has already been taken, kindly use another one :)')
     else:
         messagebox.showerror('Failed','Please enter valid detail(s)')
 
