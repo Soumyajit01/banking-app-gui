@@ -26,10 +26,9 @@ def viewDashboard(name, money):
     user_logo.grid(row=0,column=0)
     user_name.grid(row=0,column=1,padx=(20,0))
     def logoutClick():
-        dashboard.destroy()
-        os.startfile('mainscreen.pyw')
         with open(f"logs/{name}.txt",'a') as f:
             f.write(f"[{datetime.datetime.now()}]- Logged out\n")
+        quit()
     logout_frame = customtkinter.CTkButton(account_frame, text="Logout",font=("Cascadia Code",20),command=logoutClick,fg_color="#e36d64",hover_color="#ff0000")
     logout_frame.grid(row=0,column=1, padx=(500,0))
     user_frame.grid(row=0,column=0)
@@ -340,4 +339,4 @@ def viewDashboard(name, money):
 
 
 if __name__ == "__main__":
-    viewDashboard('dsafa',1000)
+    viewDashboard('example',1000)
