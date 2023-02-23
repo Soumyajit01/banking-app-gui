@@ -16,6 +16,14 @@ IndiaPay is a GUI based banking application. It has almost all features that are
 * **Hashing password**- The password stored in server.py file remains hashed due to security
 
 (all suggestions regarding the improvement of app is accepted)
+
+---
+---
+## NOTE 
+The software is made specifically by assuming that is will be executed from the 'mainscreen.py'. Trying to execute from  any file may lead to errors :)
+---
+---
+
 # Screenshots
 
 ![Mainscreen](screenshots/mainscreen.jpg)
