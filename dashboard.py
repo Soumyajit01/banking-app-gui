@@ -194,6 +194,7 @@ def viewDashboard(name, money):
             # mobile_recharge_amt.delete(0,END)
         mobile_recharge_label = customtkinter.CTkLabel(recharge_frame, text="Mobile: ",font=("Cascadia Code",20))
         mobile_recharge_input = customtkinter.CTkEntry(recharge_frame, placeholder_text="Number",font=("Cascadia Code",20),width=150)
+        mobile_recharge_input.insert(0,server.accounts[name]['phonenum'])
         mobile_recharge_amt = customtkinter.CTkEntry(recharge_frame,font=("Cascadia Code",20),placeholder_text="Amount(Rs.)",width=150)
         mobile_recharge_btn = customtkinter.CTkButton(recharge_frame,font=("Cascadia Code",20),text="Recharge",fg_color='#4f3930',hover_color='#302824',width=20,command=mobileInputClear)
         mobile_recharge_label.grid(row=0,column=0,padx=(50,0))
