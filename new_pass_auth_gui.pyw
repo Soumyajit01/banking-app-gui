@@ -18,7 +18,10 @@ def viewHashedPass():
     enteredPassword=str(enter_pass_input.get())
     hash_text.pack()
     copy_btn.pack()
-    hash_text.insert(0,pass_auth.hash(enteredPassword))
+    if len(pass_auth.hash(enteredPassword))==6:
+        hash_text.insert(0,"")
+    else:
+        hash_text.insert(0,pass_auth.hash(enteredPassword))
 
 hash_btn = Button(root,text="Hash password",font=("cascadia code",15),fg='White',bg='blue',command=viewHashedPass)
 hash_text = Entry(root,font=("Cascadia code",15),width=30)
