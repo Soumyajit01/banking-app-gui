@@ -5,6 +5,7 @@ import datetime
 import customtkinter
 import os
 import pass_auth
+import time
 
 customtkinter.set_default_color_theme("blue")
 customtkinter.set_appearance_mode("dark")
@@ -13,6 +14,7 @@ customtkinter.set_appearance_mode("dark")
 def viewDashboard(name, money):
 
     dashboard = customtkinter.CTk()
+    startTime = time.perf_counter()
     dashboard.resizable(0,0)
     dashboard.geometry("900x500")
     dashboard.title(f'Dashboard-{name}')
@@ -26,8 +28,9 @@ def viewDashboard(name, money):
     user_logo.grid(row=0,column=0)
     user_name.grid(row=0,column=1,padx=(20,0))
     def logoutClick():
+        endTime = time.perf_counter()
         with open(f"logs/{name}.txt",'a') as f:
-            f.write(f"[{datetime.datetime.now()}]- Logged out\n")
+            f.write(f"[{datetime.datetime.now()}]- Logged out ({round(endTime-startTime,2)}s)\n")
         quit()
     logout_frame = customtkinter.CTkButton(account_frame, text="Logout",font=("Cascadia Code",20),command=logoutClick,fg_color="#e36d64",hover_color="#ff0000")
     logout_frame.grid(row=0,column=1, padx=(500,0))
